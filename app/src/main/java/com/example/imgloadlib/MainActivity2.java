@@ -5,23 +5,34 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.net.MalformedURLException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main2);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ImageView imageView = findViewById(R.id.img);
+        ImageView imageView = findViewById(R.id.img2);
 
-        Button btn = findViewById(R.id.btn);
+        Button btn = findViewById(R.id.btn2);
         btn.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity2.class);
             startActivity(intent);
@@ -31,11 +42,10 @@ public class MainActivity extends AppCompatActivity {
         btn2.setOnClickListener(view -> {
             App.instance.imgLoadManager.logHashMapSize();
         });
-
         App app = App.instance;
         try {
             app.imgLoadManager.load(imageView,
-                    "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
+                    "https://i.imgur.com/DvpvklR.png");
         } catch (MalformedURLException | InterruptedException e) {
             throw new RuntimeException(e);
         }
