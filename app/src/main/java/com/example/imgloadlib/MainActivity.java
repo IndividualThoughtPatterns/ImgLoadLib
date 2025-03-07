@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
             ImgLoadManager.with().logHashMapSize();
         });
 
-        ImgLoadManager.with().load(imageView,
-                "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
+        ImgLoadManager
+                .with()
+                .load("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")
+                .into(imageView);
     }
 }

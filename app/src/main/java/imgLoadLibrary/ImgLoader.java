@@ -25,7 +25,8 @@ public class ImgLoader {
         }
     }
 
-    public void load(WeakReference<ImageView> imageViewRef) {
+    public void into(ImageView imageView) {
+        WeakReference<ImageView> imageViewRef = new WeakReference<>(imageView);
         if (imageViewRef.get() != null) {
             View.OnAttachStateChangeListener onAttachStateChangeListener = new View.OnAttachStateChangeListener() {
                 @Override
@@ -54,7 +55,6 @@ public class ImgLoader {
             });
             thread.start();
             imageViewRef.get().removeOnAttachStateChangeListener(onAttachStateChangeListener);
-
         }
     }
 }

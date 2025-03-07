@@ -19,11 +19,11 @@ public class ImgLoadManager {
         return singleton;
     }
 
-    public void load(ImageView imageView, String url) {
+    public ImgLoader load(String url) {
         ImgLoader imgLoader = new ImgLoader(url);
         urlToImgLoaderMap.put(url, imgLoader);
 
-        imgLoader.load(new WeakReference<>(imageView));
+        return imgLoader;
     }
 
     // вспомогательная функция для тестирования

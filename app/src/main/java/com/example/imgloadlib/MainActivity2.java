@@ -44,8 +44,9 @@ public class MainActivity2 extends AppCompatActivity {
         });
 
 
-        ImgLoadManager.with().load(imageView,
-                "https://i.imgur.com/DvpvklR.png");
-
+        ImgLoadManager
+                .with()
+                .load("https://i.imgur.com/DvpvklR.png")
+                .into(imageView);
     }
 }
