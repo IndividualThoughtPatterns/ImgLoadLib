@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.net.MalformedURLException;
 
+import imgLoadLibrary.ImgLoadManager;
+
 public class MainActivity2 extends AppCompatActivity {
 
     @Override
@@ -40,11 +42,11 @@ public class MainActivity2 extends AppCompatActivity {
 
         Button btn2 = findViewById(R.id.btn2);
         btn2.setOnClickListener(view -> {
-            App.instance.imgLoadManager.logHashMapSize();
+            ImgLoadManager.with().logHashMapSize();
         });
-        App app = App.instance;
+
         try {
-            app.imgLoadManager.load(imageView,
+            ImgLoadManager.with().load(imageView,
                     "https://i.imgur.com/DvpvklR.png");
         } catch (MalformedURLException | InterruptedException e) {
             throw new RuntimeException(e);
