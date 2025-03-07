@@ -7,8 +7,6 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.net.MalformedURLException;
-
 import imgLoadLibrary.ImgLoadManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,11 +32,7 @@ public class MainActivity extends AppCompatActivity {
             ImgLoadManager.with().logHashMapSize();
         });
 
-        try {
-            ImgLoadManager.with().load(imageView,
-                    "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
-        } catch (MalformedURLException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        ImgLoadManager.with().load(imageView,
+                "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
     }
 }

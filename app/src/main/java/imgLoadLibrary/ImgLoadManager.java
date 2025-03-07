@@ -4,13 +4,13 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 
 public class ImgLoadManager {
     static ImgLoadManager singleton = null;
     private final HashMap<String, ImgLoader> urlToImgLoaderMap = new HashMap<>();
 
+    // можно пока переименовать в "get", т.к. нет параметров, которые сюда передаются
     public static ImgLoadManager with() {
         if (singleton == null) {
             // здесь будет билдер и его метод создания синглтона, если надо будет.
@@ -19,12 +19,14 @@ public class ImgLoadManager {
         return singleton;
     }
 
-    public void load(ImageView imageView, String url) throws MalformedURLException, InterruptedException {
-        ImgLoader imgLoader = new ImgLoader();
+    public void load(ImageView imageView, String url) {
+        ImgLoader imgLoader = new ImgLoader(url);
         urlToImgLoaderMap.put(url, imgLoader);
-        imgLoader.load(new WeakReference<>(imageView), url);
+
+        imgLoader.load(new WeakReference<>(imageView));
     }
 
+    // вспомогательная функция для тестирования
     public void logHashMapSize() {
         Log.d("mydebug", urlToImgLoaderMap.size() + " " + urlToImgLoaderMap);
         for (ImgLoader imgLoader : urlToImgLoaderMap.values()) {

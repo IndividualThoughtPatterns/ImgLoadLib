@@ -11,8 +11,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.net.MalformedURLException;
-
 import imgLoadLibrary.ImgLoadManager;
 
 public class MainActivity2 extends AppCompatActivity {
@@ -45,11 +43,9 @@ public class MainActivity2 extends AppCompatActivity {
             ImgLoadManager.with().logHashMapSize();
         });
 
-        try {
-            ImgLoadManager.with().load(imageView,
-                    "https://i.imgur.com/DvpvklR.png");
-        } catch (MalformedURLException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
+        ImgLoadManager.with().load(imageView,
+                "https://i.imgur.com/DvpvklR.png");
+
     }
 }

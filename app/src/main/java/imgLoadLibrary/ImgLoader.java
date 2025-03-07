@@ -15,9 +15,17 @@ import java.net.URL;
 
 public class ImgLoader {
     Thread thread = null;
+    private final URL _url;
 
-    public void load(WeakReference<ImageView> imageViewRef, String url) throws MalformedURLException, InterruptedException {
-        URL _url = new URL(url);
+    ImgLoader(String url) {
+        try {
+            this._url = new URL(url);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void load(WeakReference<ImageView> imageViewRef) {
         if (imageViewRef.get() != null) {
             View.OnAttachStateChangeListener onAttachStateChangeListener = new View.OnAttachStateChangeListener() {
                 @Override
@@ -46,6 +54,7 @@ public class ImgLoader {
             });
             thread.start();
             imageViewRef.get().removeOnAttachStateChangeListener(onAttachStateChangeListener);
+
         }
     }
 }
