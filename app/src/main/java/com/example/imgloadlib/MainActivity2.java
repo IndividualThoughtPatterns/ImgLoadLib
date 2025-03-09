@@ -10,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 import imgLoadLibrary.ImgLoadManager;
 
@@ -44,9 +48,18 @@ public class MainActivity2 extends AppCompatActivity {
         });
 
 
-        ImgLoadManager
-                .with()
-                .load("https://i.imgur.com/DvpvklR.png")
-                .into(imageView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ArrayList<String> urlList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            urlList.add("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
+        }
+        for (int i = 0; i < 3; i++) {
+            urlList.add("https://i.imgur.com/DvpvklR.png");
+        }
+
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(urlList);
+        recyclerView.setAdapter(recyclerAdapter);
     }
 }

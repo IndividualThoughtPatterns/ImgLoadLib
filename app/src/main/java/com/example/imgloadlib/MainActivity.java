@@ -3,9 +3,12 @@ package com.example.imgloadlib;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 import imgLoadLibrary.ImgLoadManager;
 
@@ -19,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ImageView imageView = findViewById(R.id.img);
 
         Button btn = findViewById(R.id.btn);
         btn.setOnClickListener(view -> {
@@ -32,9 +34,18 @@ public class MainActivity extends AppCompatActivity {
             ImgLoadManager.with().logHashMapSize();
         });
 
-        ImgLoadManager
-                .with()
-                .load("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")
-                .into(imageView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ArrayList<String> urlList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            urlList.add("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
+        }
+        for (int i = 0; i < 3; i++) {
+            urlList.add("https://i.imgur.com/DvpvklR.png");
+        }
+
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(urlList);
+        recyclerView.setAdapter(recyclerAdapter);
     }
 }

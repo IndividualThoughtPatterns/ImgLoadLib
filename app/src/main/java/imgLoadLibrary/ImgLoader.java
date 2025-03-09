@@ -2,6 +2,7 @@ package imgLoadLibrary;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,8 +15,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ImgLoader {
-    Thread thread = null;
+    Thread thread = null; // без private на время тестирования
     private final URL _url;
+    boolean loadTried = false;
+    private Bitmap bitmap = null;
 
     ImgLoader(String url) {
         try {
@@ -41,19 +44,26 @@ public class ImgLoader {
                     }
                 }
             };
+
             imageViewRef.get().addOnAttachStateChangeListener(onAttachStateChangeListener);
 
-            thread = new Thread(() -> {
-                Bitmap bitmap;
-                try (BufferedInputStream bufferedInputStream = new BufferedInputStream(_url.openStream())) {
-                    bitmap = BitmapFactory.decodeStream(bufferedInputStream);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            if (loadTried == false) {
+                Log.d("mydebug", "работает загрузка по сети");
+                loadTried = true; // если картинка еще не была загружена, то сделать запрос
+                thread = new Thread(() -> {
+                    try (BufferedInputStream bufferedInputStream = new BufferedInputStream(_url.openStream())) {
+                        bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                imageViewRef.get().post(() -> imageViewRef.get().setImageBitmap(bitmap));
-            });
-            thread.start();
+                    imageViewRef.get().post(() -> imageViewRef.get().setImageBitmap(bitmap));
+                });
+                thread.start();
+            } else { // если запрос картинки уже был сделан, то заполнить ImageView тем, что есть
+                imageViewRef.get().setImageBitmap(bitmap);
+            }
+
             imageViewRef.get().removeOnAttachStateChangeListener(onAttachStateChangeListener);
         }
     }

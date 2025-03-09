@@ -1,9 +1,7 @@
 package imgLoadLibrary;
 
 import android.util.Log;
-import android.widget.ImageView;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 public class ImgLoadManager {
@@ -20,9 +18,13 @@ public class ImgLoadManager {
     }
 
     public ImgLoader load(String url) {
-        ImgLoader imgLoader = new ImgLoader(url);
-        urlToImgLoaderMap.put(url, imgLoader);
-
+        ImgLoader imgLoader;
+        if (urlToImgLoaderMap.containsKey(url)) {
+            imgLoader = urlToImgLoaderMap.get(url);
+        } else {
+            imgLoader = new ImgLoader(url);
+            urlToImgLoaderMap.put(url, imgLoader);
+        }
         return imgLoader;
     }
 
