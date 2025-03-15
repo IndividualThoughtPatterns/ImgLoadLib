@@ -8,6 +8,8 @@ public class ImgLoadManager {
     static ImgLoadManager singleton = null;
     private final HashMap<String, ImgLoader> urlToImgLoaderMap = new HashMap<>();
 
+    private ImgLoadManager() {}
+
     // можно пока переименовать в "get", т.к. нет параметров, которые сюда передаются
     public static ImgLoadManager with() {
         if (singleton == null) {

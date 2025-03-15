@@ -15,11 +15,9 @@ import imgLoadLibrary.ImgLoadManager;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     List<String> urlList;
-    private int numberOfItems;
 
     public RecyclerAdapter(List<String> urlList) {
         this.urlList = urlList;
-        numberOfItems = urlList.size();
     }
 
     @NonNull
@@ -38,7 +36,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return numberOfItems;
+        return urlList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
