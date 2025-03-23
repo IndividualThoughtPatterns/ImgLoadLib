@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn2 = findViewById(R.id.btn2);
         btn2.setOnClickListener(view -> {
-            ImgLoadManager.with().logHashMapSize();
+            //ImgLoadManager.with().logHashMapSize();
         });
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);

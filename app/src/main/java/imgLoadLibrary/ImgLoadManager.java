@@ -1,14 +1,33 @@
 package imgLoadLibrary;
 
 import android.util.Log;
+import android.util.LruCache;
 
-import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ImgLoadManager {
     static ImgLoadManager singleton = null;
-    private final HashMap<String, ImgLoader> urlToImgLoaderMap = new HashMap<>();
+    int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    int cacheSize = maxMemory / 8;
+    private final LruCache<String, ImgLoader> urlToImgLoaderMapCache = new LruCache<>(cacheSize);
 
-    private ImgLoadManager() {}
+    public int getEvictionCount() {
+        return this.urlToImgLoaderMapCache.evictionCount();
+    }
+
+    ExecutorService threadPoolExecutor = new ThreadPoolExecutor(
+            10,
+            20,
+            3000,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>()
+    );
+
+    private ImgLoadManager() {
+    }
 
     // можно пока переименовать в "get", т.к. нет параметров, которые сюда передаются
     public static ImgLoadManager with() {
@@ -20,21 +39,17 @@ public class ImgLoadManager {
     }
 
     public ImgLoader load(String url) {
-        ImgLoader imgLoader;
-        if (urlToImgLoaderMap.containsKey(url)) {
-            imgLoader = urlToImgLoaderMap.get(url);
+        ImgLoader imgLoader = urlToImgLoaderMapCache.get(url);
+        if (imgLoader == null) {
+            imgLoader = new ImgLoader(url, threadPoolExecutor);
+            urlToImgLoaderMapCache.put(url, imgLoader);
+            Log.d("mydebug", "loaded from network " + url);
         } else {
-            imgLoader = new ImgLoader(url);
-            urlToImgLoaderMap.put(url, imgLoader);
+            Log.d("mydebug", "loaded from cache " + url);
         }
+        Log.d("mydebug", "lru size: " + urlToImgLoaderMapCache.size() + "");
+        urlToImgLoaderMapCache.trimToSize(cacheSize);
+        Log.d("mydebug", "eviction count: " + urlToImgLoaderMapCache.evictionCount());
         return imgLoader;
-    }
-
-    // вспомогательная функция для тестирования
-    public void logHashMapSize() {
-        Log.d("mydebug", urlToImgLoaderMap.size() + " " + urlToImgLoaderMap);
-        for (ImgLoader imgLoader : urlToImgLoaderMap.values()) {
-            Log.d("mydebug", "thread is alive: " + imgLoader.thread.isAlive());
-        }
     }
 }

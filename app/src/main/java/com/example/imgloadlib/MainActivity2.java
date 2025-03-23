@@ -2,11 +2,11 @@ package com.example.imgloadlib;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,12 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setContentView(R.layout.activity_main2);
 
         Button btn = findViewById(R.id.btn2);
@@ -24,25 +30,54 @@ public class MainActivity2 extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity2.class);
             startActivity(intent);
         });
+        ImageView imageView = findViewById(R.id.imgView2);
 
         Button btn2 = findViewById(R.id.btn2);
-        btn2.setOnClickListener(view -> {
-            ImgLoadManager.with().logHashMapSize();
+
+        Button btn3 = findViewById(R.id.btn3);
+        btn3.setOnClickListener(view -> {
+            Log.d("mydebug", "eviction count: " + ImgLoadManager.with().getEvictionCount());
         });
+        btn2.setOnClickListener(view -> {
 
+            ArrayList<String> urlList = new ArrayList<>();
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//            for (int i = 1; i < 1000; i++) {
+//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
+//                urlList.add(url);
+//            }
+//            for (int i = 1; i < 1000; i++) {
+//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
+//                urlList.add(url);
+//            }
+//            for (int i = 1; i < 1000; i++) {
+//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
+//                urlList.add(url);
+//            }
+//            for (int i = 1; i < 1000; i++) {
+//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
+//                urlList.add(url);
+//            }
+            for (int i = 1; i < 1000; i++) {
+                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
+                urlList.add(url);
+            }
+            for (int i = 1; i < 1000; i++) {
+                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/" + i + ".png";
+                urlList.add(url);
+            }
+            for (int i = 1; i < 1000; i++) {
+                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + i + ".png";
+                urlList.add(url);
+            }
+            for (int i = 1; i < 1000; i++) {
+                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/" + i + ".png";
+                urlList.add(url);
+            }
 
-        ArrayList<String> urlList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            urlList.add("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
-        }
-        for (int i = 0; i < 3; i++) {
-            urlList.add("https://i.imgur.com/DvpvklR.png");
-        }
-
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(urlList);
-        recyclerView.setAdapter(recyclerAdapter);
+            for (int i = 0; i < urlList.size(); i++) {
+                ImgLoadManager.with().load(urlList.get(i)).into(imageView);
+            }
+        });
     }
 }
