@@ -36,7 +36,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         Button btn3 = findViewById(R.id.btn3);
         btn3.setOnClickListener(view -> {
-            Log.d("mydebug", "eviction count: " + ImgLoadManager.with().getEvictionCount());
+            ImgLoadManager.with().getCacheSize();
         });
         btn2.setOnClickListener(view -> {
 
@@ -58,25 +58,28 @@ public class MainActivity2 extends AppCompatActivity {
 //                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
 //                urlList.add(url);
 //            }
-            for (int i = 1; i < 1000; i++) {
+
+
+
+            for (int i = 1; i < 100; i++) {
                 String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
                 urlList.add(url);
             }
-            for (int i = 1; i < 1000; i++) {
-                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/" + i + ".png";
-                urlList.add(url);
-            }
-            for (int i = 1; i < 1000; i++) {
-                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + i + ".png";
-                urlList.add(url);
-            }
-            for (int i = 1; i < 1000; i++) {
-                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/" + i + ".png";
-                urlList.add(url);
-            }
+//            for (int i = 1; i < 1000; i++) {
+//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/" + i + ".png";
+//                urlList.add(url);
+//            }
+//            for (int i = 1; i < 1000; i++) {
+//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + i + ".png";
+//                urlList.add(url);
+//            }
+//            for (int i = 1; i < 1000; i++) {
+//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/" + i + ".png";
+//                urlList.add(url);
+//            }
 
             for (int i = 0; i < urlList.size(); i++) {
-                ImgLoadManager.with().load(urlList.get(i)).into(imageView);
+                ImgLoadManager.with().load(urlList.get(i), imageView);
             }
         });
     }
