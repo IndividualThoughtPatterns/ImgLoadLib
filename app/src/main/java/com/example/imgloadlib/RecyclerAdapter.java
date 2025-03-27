@@ -48,10 +48,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         void bind(int position) {
-//            ImgLoadManager
-//                    .with()
-//                    .load(urlList.get(position))
-//                    .into(imageView);
+            ImgLoadManager
+                    .get()
+                    .load(urlList.get(position), imageView);
         }
     }
 }

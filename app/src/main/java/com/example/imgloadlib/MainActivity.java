@@ -18,15 +18,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btn = findViewById(R.id.btn);
-        btn.setOnClickListener(view -> {
+        Button toAct2btn = findViewById(R.id.to_act2_btn);
+        toAct2btn.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity2.class);
             startActivity(intent);
         });
 
-        Button btn2 = findViewById(R.id.btn2);
-        btn2.setOnClickListener(view -> {
-            //ImgLoadManager.with().logHashMapSize();
+        Button checkCacheSizeBtn = findViewById(R.id.check_cache_btn);
+        checkCacheSizeBtn.setOnClickListener(view -> {
+            ImgLoadManager.get().logCacheSize();
         });
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);

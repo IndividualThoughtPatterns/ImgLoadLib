@@ -1,6 +1,5 @@
 package com.example.imgloadlib;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -25,62 +24,51 @@ public class MainActivity2 extends AppCompatActivity {
         super.onResume();
         setContentView(R.layout.activity_main2);
 
-        Button btn = findViewById(R.id.btn2);
-        btn.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MainActivity2.class);
-            startActivity(intent);
-        });
-        ImageView imageView = findViewById(R.id.imgView2);
+        ImageView imageView = findViewById(R.id.imageView);
 
-        Button btn2 = findViewById(R.id.btn2);
-
-        Button btn3 = findViewById(R.id.btn3);
-        btn3.setOnClickListener(view -> {
-            ImgLoadManager.with().getCacheSize();
+        Button checkCacheSizeBtn = findViewById(R.id.check_cache_btn);
+        checkCacheSizeBtn.setOnClickListener(view -> {
+            ImgLoadManager.get().logCacheSize();
         });
-        btn2.setOnClickListener(view -> {
+
+        Button downloadBigAmountOfImagesBtn = findViewById(R.id.download_big_amount_of_images_btn);
+        downloadBigAmountOfImagesBtn.setOnClickListener(view -> {
 
             ArrayList<String> urlList = new ArrayList<>();
 
-//            for (int i = 1; i < 1000; i++) {
-//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
-//                urlList.add(url);
-//            }
-//            for (int i = 1; i < 1000; i++) {
-//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
-//                urlList.add(url);
-//            }
-//            for (int i = 1; i < 1000; i++) {
-//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
-//                urlList.add(url);
-//            }
-//            for (int i = 1; i < 1000; i++) {
-//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
-//                urlList.add(url);
-//            }
+            for (int i = 1; i < 1000; i++) {
+                String url1 = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
+                String url2 = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/" + i + ".png";
+                String url3 = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + i + ".png";
+                String url4 = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/" + i + ".png";
 
+                urlList.add(url1);
+                urlList.add(url2);
+                urlList.add(url3);
+                urlList.add(url4);
+            }
 
+            for (int i = 0; i < urlList.size(); i++) {
+                ImgLoadManager.get().load(urlList.get(i), imageView);
+            }
+        });
 
-            for (int i = 1; i < 100; i++) {
+        Button downloadSmallAmountOfImagesBtn = findViewById(R.id.download_small_amount_of_images_btn);
+        downloadSmallAmountOfImagesBtn.setOnClickListener(view -> {
+            ArrayList<String> urlList = new ArrayList<>();
+            for (int i = 1; i < 30; i++) {
                 String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
                 urlList.add(url);
             }
-//            for (int i = 1; i < 1000; i++) {
-//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/" + i + ".png";
-//                urlList.add(url);
-//            }
-//            for (int i = 1; i < 1000; i++) {
-//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + i + ".png";
-//                urlList.add(url);
-//            }
-//            for (int i = 1; i < 1000; i++) {
-//                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/" + i + ".png";
-//                urlList.add(url);
-//            }
-
             for (int i = 0; i < urlList.size(); i++) {
-                ImgLoadManager.with().load(urlList.get(i), imageView);
+                ImgLoadManager.get().load(urlList.get(i), imageView);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("mydebug", "back pressed");
     }
 }
