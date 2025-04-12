@@ -45,7 +45,7 @@ public class ImgLoadManager {
         Log.d("mydebug", "cache size: " + this.urlToImgLoaderMapCache.size());
     }
 
-    public static ImgLoadManager get() {
+    public static synchronized ImgLoadManager get() {
         if (singleton == null) {
             singleton = new ImgLoadManager();
         }
