@@ -53,45 +53,55 @@ public class ImgLoadManager {
     }
 
     public void load(String url, ImageView imageView) {
-        Bitmap cached = urlToImgLoaderMapCache.get(url);
         WeakReference<ImageView> imageViewRef = new WeakReference<>(imageView);
-        if (cached == null) {
-            Log.d("mydebug", "network download: " + url);
+        Future future = threadPoolExecutor.submit(() -> {
+            Log.d("mydebug", Thread.currentThread().getName() + " load " );
+           getBitmapFromCacheOrDownload(url, imageView);
+        });
 
-            Future future = threadPoolExecutor.submit(() -> {
+        imageViewRef.get().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(@NonNull View v) {
+
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(@NonNull View v) {
+                        if (future != null) {
+                            future.cancel(true);
+                        }
+            }
+        });
+    }
+
+    private void getBitmapFromCacheOrDownload(String url, ImageView imageView) {
+        //synchronized (urlToImgLoaderMapCache) {
+            Bitmap cached = urlToImgLoaderMapCache.get(url);
+            WeakReference<ImageView> imageViewRef = new WeakReference<>(imageView);
+            if (cached == null) {
                 try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new URL(url).openStream())) {
                     Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+                    Log.d("mydebug", Thread.currentThread().getName() + " network download: " + url);
 
+                    if (bitmap != null) {
+                        urlToImgLoaderMapCache.put(url, bitmap.copy(bitmap.getConfig(), true));
+                        Log.d("mydebug", "putted");
+                    }
                     imageViewRef.get().post(() -> {
                         if (bitmap != null) {
-                            urlToImgLoaderMapCache.put(url, bitmap.copy(bitmap.getConfig(), true));
                             imageViewRef.get().setImageBitmap(bitmap);
                         }
                     });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            });
-
-            imageViewRef.get().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                @Override
-                public void onViewAttachedToWindow(@NonNull View v) {
-
-                }
-
-                @Override
-                public void onViewDetachedFromWindow(@NonNull View v) {
-                    if (future != null) {
-                        future.cancel(true);
-                    }
-                }
-            });
-        } else {
-            Log.d("mydebug", "byte count: " + cached.getByteCount());
-            imageViewRef.get().setImageBitmap(cached);
-            Log.d("mydebug", "loaded from cache " + url);
+            } else {
+                //Log.d("mydebug", "byte count: " + cached.getByteCount());
+                imageViewRef.get().setImageBitmap(cached);
+                Log.d("mydebug", "loaded from cache " + url);
+            }
+            //Log.d("mydebug", "lru size: " + urlToImgLoaderMapCache.size() + "");
+            //Log.d("mydebug", "eviction count: " + urlToImgLoaderMapCache.evictionCount());
         }
-        Log.d("mydebug", "lru size: " + urlToImgLoaderMapCache.size() + "");
-        Log.d("mydebug", "eviction count: " + urlToImgLoaderMapCache.evictionCount());
-    }
+   // }
 }

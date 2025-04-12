@@ -56,8 +56,8 @@ public class MainActivity2 extends AppCompatActivity {
         Button downloadSmallAmountOfImagesBtn = findViewById(R.id.download_small_amount_of_images_btn);
         downloadSmallAmountOfImagesBtn.setOnClickListener(view -> {
             ArrayList<String> urlList = new ArrayList<>();
-            for (int i = 1; i < 30; i++) {
-                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + i + ".png";
+            for (int i = 1; i < 100; i++) {
+                String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/" + 1 + ".png";
                 urlList.add(url);
             }
             for (int i = 0; i < urlList.size(); i++) {
