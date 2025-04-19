@@ -2,6 +2,7 @@ package com.example.imgloadlib;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,5 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerAdapter recyclerAdapter = new RecyclerAdapter(urlList);
         recyclerView.setAdapter(recyclerAdapter);
+        Log.d("mydebug", "\n");
     }
 }
