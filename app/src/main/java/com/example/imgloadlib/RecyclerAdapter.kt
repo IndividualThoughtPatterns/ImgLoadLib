@@ -30,7 +30,7 @@ class RecyclerAdapter(var urlList: List<String>) :
         fun bind(position: Int) {
             ImgLoadManager
                 .get()
-                ?.load(urlList[position], imageView)
+                ?.load(urlList[position], imageView, position)
         }
     }
 }
