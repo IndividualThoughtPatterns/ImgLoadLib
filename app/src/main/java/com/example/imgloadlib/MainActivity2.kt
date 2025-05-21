@@ -40,7 +40,7 @@ class MainActivity2 : AppCompatActivity() {
                 urlList.add(url4)
             }
             for (i in urlList.indices) {
-                ImgLoadManager.get()?.load(urlList[i], imageView)
+                ImgLoadManager.get()?.load(urlList[i], imageView, i)
             }
         }
 
@@ -54,8 +54,8 @@ class MainActivity2 : AppCompatActivity() {
                 urlList.add(url)
             }
             for (i in urlList.indices) {
-                ImgLoadManager.get()?.load(urlList[i], imageView)
-                ImgLoadManager.get()?.load(urlList[i], imageView2)
+                ImgLoadManager.get()?.load(urlList[i], imageView, i)
+                ImgLoadManager.get()?.load(urlList[i], imageView2, i)
             }
         }
     }

@@ -8,8 +8,10 @@ class ImageSetter internal constructor(
     private var imageViewRef: WeakReference<ImageView>
 ) {
     fun setImage(bitmap: Bitmap?) {
-        imageViewRef.get()!!.post {
-            imageViewRef.get()!!.setImageBitmap(bitmap)
+        //if (imageViewRef.get() != null) {
+        imageViewRef.get()?.post { // ?. заменяет проверку
+            imageViewRef.get()?.setImageBitmap(bitmap)
         }
+        //}
     }
 }
